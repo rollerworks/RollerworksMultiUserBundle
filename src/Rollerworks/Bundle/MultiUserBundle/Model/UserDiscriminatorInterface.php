@@ -23,6 +23,7 @@ interface UserDiscriminatorInterface
      *
      * @param string     $name
      * @param UserConfig $user
+     * @return void
      */
     public function addUser($name, UserConfig $user);
 
@@ -30,6 +31,7 @@ interface UserDiscriminatorInterface
      * Set the current user.
      *
      * @param string $name
+     * @return void
      */
     public function setCurrentUser($name);
 
