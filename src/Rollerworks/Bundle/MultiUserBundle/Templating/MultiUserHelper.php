@@ -38,7 +38,7 @@ class MultiUserHelper extends Helper
     }
 
     /**
-     * @return \Rollerworks\Bundle\MultiUserBundle\Model\UserConfig|null
+     * @return \Rollerworks\Bundle\MultiUserBundle\Model\UserConfig
      */
     public function getUserConfig()
     {

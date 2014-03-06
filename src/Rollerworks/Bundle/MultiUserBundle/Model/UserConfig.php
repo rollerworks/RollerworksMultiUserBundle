@@ -63,9 +63,9 @@ class UserConfig
 
     /**
      * @param string $name
-     * @param mixed  $defaultValue
+     * @param integer  $defaultValue
      *
-     * @return mixed
+     * @return integer
      */
     public function getConfig($name, $defaultValue = null)
     {
