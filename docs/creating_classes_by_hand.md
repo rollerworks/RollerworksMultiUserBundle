@@ -187,6 +187,7 @@ For more details on the configuration reference see
 [FOSUserBundle Configuration Reference](https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/configuration_reference.md)
 for original description.
 
+<a name="configuration">
 #### 3.4: Make your bundle configurable
 
 As you'd properly don't want to hard-code the configuration of your user-bundle,
@@ -485,7 +486,7 @@ public function registerBundles()
 }
 ```
 
-And if bundle configuration is enabled (see previous sub-section: 3.4).
+And if bundle configuration is enabled ([see previous sub-section: 3.4](#configuration)).
 
 ``` yaml
 # app/config/config.yml

@@ -102,6 +102,32 @@ $ php app/console rollerworks:multi-user:generate:usersys
 
 > Only the classes are generated, you need create the Mapping data for db-driver yourself.
 
+**example:**
+
+Basic annotation mapping :
+
+``` php
+<?php
+namespace Acme\UserBundle;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+/**
+* @ORM\Entity
+* @ORM\Table(name="acme_user")
+*/
+class User extends BaseUser
+{
+/**
+* @ORM\Id
+* @ORM\Column(type="integer")
+* @ORM\GeneratedValue(strategy="AUTO")
+*/
+protected $id;
+}
+```
+
+
 > In the example all routing path's will be prefixed with 'user/' for explicitness,
 > you can decide not to use them or use your own.
 
