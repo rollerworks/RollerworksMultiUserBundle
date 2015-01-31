@@ -1,7 +1,13 @@
 Creating classes by hand
 ========================
 
-#### 1: To create your new user-system, first create a new bundle skeleton.
+You can also create your users classes by hand.
+
+After you downloaded and enabled the RollerworksMultiUserBundle ([see getting started](index.md)) :
+
+#### 3.1: Create a bundle skeleton
+
+To create your new user-system, first create a new bundle skeleton.
 
 See: [Generating a New Bundle Skeleton](http://symfony.com/doc/current/bundles/SensioGeneratorBundle/commands/generate_bundle.html)
     for more details on creating a new bundle skeleton.
@@ -9,7 +15,7 @@ See: [Generating a New Bundle Skeleton](http://symfony.com/doc/current/bundles/S
 For this example we'll be using `AcmeUserBundle` as our bundle name,
 which will be planed in the `Acme\UserBundle` namespace with YAML as configuration format.
 
-#### 2: Create your User class
+#### 3.2: Create your User class
 
 See [FOSUserBundle - Create your User class](https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/index.md#step-3-create-your-user-class) for full details.
 
@@ -34,7 +40,7 @@ doctrine:
 
 **For other Doctrine drivers please refer to official documentation.**
 
-#### 3: Register the user-system
+#### 3.3: Register the user-system
 
 **Note.** Activating the new user-system requires it to be enabled in the AppKernel.
 
@@ -181,7 +187,7 @@ For more details on the configuration reference see
 [FOSUserBundle Configuration Reference](https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/configuration_reference.md)
 for original description.
 
-#### 4: Make your bundle configurable
+#### 3.4: Make your bundle configurable
 
 As you'd properly don't want to hard-code the configuration of your user-bundle,
 you can use the following to make your bundle more configurable.
@@ -460,7 +466,7 @@ class Configuration implements ConfigurationInterface
 
 See also: [Defining and processing configuration values - Appending sections](http://symfony.com/doc/current/components/config/definition.html#appending-sections)
 
-#### 5: Enable the bundle
+#### 3.5: Enable the bundle
 
 Enable the bundle in the kernel:
 
@@ -479,11 +485,71 @@ public function registerBundles()
 }
 ```
 
-And if bundle configuration is enabled (see previous sub-section: 4).
+And if bundle configuration is enabled (see previous sub-section: 3.4).
 
-```yaml
+``` yaml
 # app/config/config.yml
 
 acme_user:
     path: "^/user"
 ```
+
+#### 3.6: Configure routing
+
+Now that you have created you user class you have to configure the routing.
+
+First copy the `Resources/config/routing` from the FOSUserBundle to your user-bundle.
+
+Now replace all the `fos_user` route prefixes to `acme_user` or what you have configured for your bundle.
+
+By importing the routing files you will have ready made pages for things such as
+log-in, creating users, etc.
+
+**Caution:**
+
+> When you change the routing prefix also remember to update your
+> firewall pattern and user-system request-matching configuration.
+
+In YAML:
+
+``` yaml
+# app/config/routing.yml
+acme_user_security:
+    resource: "@AcmeUserBundle/Resources/config/routing/security.yml"
+    prefix: /user
+
+acme_user_profile:
+    resource: "@AcmeUserBundle/Resources/config/routing/profile.yml"
+    prefix: /user/profile
+
+acme_user_register:
+    resource: "@AcmeUserBundle/Resources/config/routing/registration.yml"
+    prefix: /user/register
+
+acme_user_resetting:
+    resource: "@AcmeUserBundle/Resources/config/routing/resetting.yml"
+    prefix: /user/resetting
+
+acme_user_change_password:
+    resource: "@AcmeUserBundle/Resources/config/routing/change_password.yml"
+    prefix: /user/profile
+```
+
+Or if you prefer XML:
+
+``` xml
+<!-- app/config/routing.xml -->
+<import resource="@AcmeUserBundle/Resources/config/routing/security.xml"/>
+<import resource="@AcmeUserBundle/Resources/config/routing/profile.xml" prefix="/profile" />
+<import resource="@AcmeUserBundle/Resources/config/routing/registration.xml" prefix="/register" />
+<import resource="@AcmeUserBundle/Resources/config/routing/resetting.xml" prefix="/resetting" />
+<import resource="@AcmeUserBundle/Resources/config/routing/change_password.xml" prefix="/profile" />
+```
+
+**Note:**
+
+> In order to use the built-in email functionality (confirmation of the account,
+> resetting of the password), you must activate and configure the SwiftmailerBundle.
+> Or configure your own mailer service.
+
+#### You can now go on with step 4: [Configure your application's security.yml](index.md#security)

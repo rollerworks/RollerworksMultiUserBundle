@@ -116,6 +116,8 @@ which will be planed in the `Acme\UserBundle` namespace with YAML as configurati
 
 #### 3.2: Configure routing
 
+Now that you have created you user class you have to configure the routing.
+
 **Note:**
 
 > Make sure the route-name prefix is the same as configured in the user-system.
@@ -137,7 +139,7 @@ In YAML:
 # app/config/routing.yml
 acme_user_security:
     resource: "@AcmeUserBundle/Resources/config/routing/security.yml"
-    prefix: /user/profile
+    prefix: /user
 
 acme_user_profile:
     resource: "@AcmeUserBundle/Resources/config/routing/profile.yml"
@@ -173,6 +175,7 @@ Or if you prefer XML:
 > resetting of the password), you must activate and configure the SwiftmailerBundle.
 > Or configure your own mailer service.
 
+<a name="security">
 ### 4: Configure your application's security.yml
 
 In order for the Symfony security component to use the user-system, you must
