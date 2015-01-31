@@ -49,7 +49,7 @@ $ php composer.phar update rollerworks/multi-user-bundle
 
 Composer will install the bundle to your project's `vendor/rollerworks` directory.
 
-### Step 2: Enable the bundle
+### 2: Enable the bundle
 
 Enable the bundles in the kernel:
 
@@ -74,15 +74,22 @@ every bundle can only have one parent.
 
 ### 3: Create your User(s)
 
-To create your new user(s), you can either 
+To create your new user(s), you can either
 
 use the `rollerworks:multi-user:generate:usersys` command to get the skeleton generated for you ()
 
 &nbsp; or
 
-create everything by hand (see creating classes by hand).
+create everything by hand ([see creating classes by hand](creating_classes_by_hand.md)).
 
-**Create your user(s) with the command line**
+
+**Note:**
+
+> Each user-system is required to have its own Form types to functional properly,
+you can not reuse the form types of UserA for UserB. If you don't specify anyone explicit
+the system will register the user-system form-types for you.
+
+#### 3.1: Create your user(s) with the command line
 
 To create your new user-system, first create a new bundle skeleton.
 
@@ -107,7 +114,7 @@ $ php app/console rollerworks:multi-user:generate:usersys
 For this example we'll be using `AcmeUserBundle` as our bundle name,
 which will be planed in the `Acme\UserBundle` namespace with YAML as configuration format.
 
-#### 3.1: Configure routing
+#### 3.2: Configure routing
 
 **Note:**
 
@@ -284,6 +291,39 @@ rollerworks_multi_user:
         sender_name: webmaster
 ```
 
+## How it works
+
+The system works with a `UserDiscriminator`-service which determines which user-system should be handled,
+and delegates all handling to actual user-services.
+
+**Note:**
+
+>The original fos_user service definitions and configuration are overwritten and automatically
+configured for multi user support.
+
+**Caution:**
+
+> Configuration for the FOSUserBundle is handled trough the RollerworksMultiUserBundle,
+you must not set the `fos_user` (or remove it if you have it configured) configuration in your app/config,
+use `rollerworks_multi_user` instead. Setting the fos_user configuration yourself **will**
+break the RollerworksMultiUserBundle.
+
+**Note:**
+> Finding the correct user is done using the AuthenticationListener and RequestListener services.
+> You can also choose to build your own discriminator service, just be careful.
+
+A user-system is also referred to as a 'user-bundle'.
+
+## Commands
+
+The original commands can be used as normal, but require you also include the '--user-system' parameter,
+to indicate which user-system must be used.
+
+*The user-system name is the first parameter you pass to UserServicesFactory::create()*
+
+```bash
+php app/console fos:user:create --user-system=acme_user matthieu
+```
 ## Next Steps
 
 Now that you have completed the basic installation and configuration of your user-bundle,
@@ -299,3 +339,4 @@ of the system.
 - [Overriding Templates](overriding_templates.md)
 - [Overriding Forms](overriding_forms.md)
 - [Using the UserManager and GroupManager](user_manager.md)
+- [Creating classes by hand](creating_classes_by_hand.md)
